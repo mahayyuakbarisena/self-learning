@@ -3,10 +3,23 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan'); //Buat ngasih tau route mana yang di request
 const bodyParser = require('body-parser'); //Untuk ngeparse isi/body dari request yang masuk
+const mongoose = require('mongoose'); //Import mongoose untuk mengelola database
+
 
 //Import Routes from api\routes
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+
+//Koneksikan database dengan Mongodb atlas menggunakan syntax berikut
+mongoose.connect('mongodb+srv://dbShop:'+ 
+                process.env.MONGO_ATLAS_PW + //ini bisa di edit di nodemon.json
+                '@cluster0.ghzpe.mongodb.net/'+
+                process.env.MONGO_ATLAS_DB+ //ini juga bisa di edit di nodemon.json
+                '?retryWrites=true&w=majority',
+                {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true
+                });
 
 //Manggil fungsi morgan
 app.use(morgan('dev')); 

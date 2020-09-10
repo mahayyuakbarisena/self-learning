@@ -1,0 +1,6 @@
+{
+    "env":{
+        "MONGO_ATLAS_PW" : "WT7mxJaQa6EXeTPL",
+        "MONGO_ATLAS_DB" : "shopDatabase"
+    }
+}
