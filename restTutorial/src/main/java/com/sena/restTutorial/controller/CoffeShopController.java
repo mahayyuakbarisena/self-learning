@@ -104,26 +104,27 @@ public class CoffeShopController {
     ResponseEntity<Response> update (@RequestParam(name = "id") Long id,
                                      @RequestParam(name = "nama") String nama,
                                      @RequestParam(name = "jum_produk") Integer jumProduk,
-                                     @RequestParam(name = "tgl_terbentuk") LocalDate tglTerbentuk,
+                                     @RequestParam(name = "tgl_terbentuk") String tglTerbentuk,
                                      @RequestParam(name = "alamat_id") Long alamatId,
                                      @RequestParam(name = "pemilik_id") Long pemilikId) throws UnknownHostException {
         String nameofCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
 
-        CoffeShop coffeShop = new CoffeShop();
+        CoffeShop coffeShop = coffeShopService.findById(id);
         Alamat alamat = alamatService.findById(alamatId);
         Pemilik pemilik = pemilikService.findById(pemilikId);
         coffeShop.setNama(nama);
         coffeShop.setJumProduk(jumProduk);
-        coffeShop.setTglTerbentuk(tglTerbentuk);
+        LocalDate tanggalTerbentuk = LocalDate.parse(tglTerbentuk);
+        coffeShop.setTglTerbentuk(tanggalTerbentuk);
         coffeShop.setAlamat(alamat);
         coffeShop.setPemilik(pemilik);
         coffeShop.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         coffeShop.setUpdatedBy(InetAddress.getLocalHost().getHostName());
 
         Response response = new Response();
-        response.setService(this.getClass().getName() + nameofCurrMethod);
+        response.setService(this.getClass().getName() +"."+ nameofCurrMethod);
         response.setMessage("Berhasil Update Data");
         response.setData(coffeShopService.update(id, coffeShop));
 
@@ -133,14 +134,14 @@ public class CoffeShopController {
                 .body(response);
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<Response> deleteById(@PathVariable(value = "id") Long id){
+    @DeleteMapping
+    ResponseEntity<Response> deleteById(@RequestParam(value = "id") Long id){
         String nameofCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
 
         Response response = new Response();
-        response.setService(this.getClass().getName() + nameofCurrMethod);
+        response.setService(this.getClass().getName() +"."+ nameofCurrMethod);
         response.setMessage("Data Berhasil Dihapus");
         response.setData(coffeShopService.findById(id));
 

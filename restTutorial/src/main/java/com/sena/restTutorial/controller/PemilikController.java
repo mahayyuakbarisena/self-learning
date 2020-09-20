@@ -117,8 +117,8 @@ public class PemilikController {
                 .body(response);
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<Response> deleteById(@PathVariable(value = "id") Long id){
+    @DeleteMapping
+    ResponseEntity<Response> deleteById(@RequestParam(value = "id") Long id){
         String nameofCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
