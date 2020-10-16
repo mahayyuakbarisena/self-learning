@@ -1,5 +1,6 @@
 package com.sena.restTutorial.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -30,6 +31,7 @@ public class CoffeShop {
     private Alamat alamat;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "pemilik_id")
     private Pemilik pemilik;
 

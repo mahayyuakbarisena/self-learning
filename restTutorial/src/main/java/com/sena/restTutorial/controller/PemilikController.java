@@ -1,7 +1,6 @@
 package com.sena.restTutorial.controller;
 
 import com.sena.restTutorial.Response;
-import com.sena.restTutorial.model.CoffeShop;
 import com.sena.restTutorial.model.Pemilik;
 import com.sena.restTutorial.service.CoffeShopService;
 import com.sena.restTutorial.service.PemilikService;
@@ -9,19 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/pemilik")
 public class PemilikController {
     @Autowired
     PemilikService pemilikService;
+
+    @Autowired
+    CoffeShopService coffeShopService;
 
     @PostMapping
     ResponseEntity<Response> create (@RequestParam(name = "nama_depan") String namaDepan,

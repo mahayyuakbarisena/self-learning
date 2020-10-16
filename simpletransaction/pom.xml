@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sena</groupId>
-	<artifactId>restTutorial</artifactId>
+	<artifactId>simpletransaction</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>restTutorial</name>
-	<description>Demo project for Spring Boot</description>
+	<name>simpletransaction</name>
+	<description>Transaction demo with spring boot</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -21,13 +21,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

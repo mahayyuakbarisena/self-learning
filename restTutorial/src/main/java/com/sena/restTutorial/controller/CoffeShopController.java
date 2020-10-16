@@ -1,6 +1,7 @@
 package com.sena.restTutorial.controller;
 
 import com.sena.restTutorial.Response;
+import com.sena.restTutorial.form.FormCoffeShop;
 import com.sena.restTutorial.model.Alamat;
 import com.sena.restTutorial.model.CoffeShop;
 import com.sena.restTutorial.model.Pemilik;
@@ -31,33 +32,47 @@ public class CoffeShopController {
     PemilikService pemilikService;
 
     @PostMapping
-    ResponseEntity<Response> create (@RequestParam(name = "nama") String nama,
-                                     @RequestParam(name = "jum_produk") Integer jumProduk,
-                                     @RequestParam(name = "tgl_terbentuk") String tglTerbentuk,
-                                     @RequestParam(name = "alamat_id") Long alamatId,
-                                     @RequestParam(name = "pemilik_id") Long pemilikId) throws UnknownHostException {
+    ResponseEntity<Response> create (@RequestBody FormCoffeShop formCoffeShop) throws UnknownHostException {
         String nameofCurrMethod = new Throwable()
                 .getStackTrace()[0]
                 .getMethodName();
 
-        CoffeShop coffeShop = new CoffeShop();
-        Alamat alamat = alamatService.findById(alamatId);
-        Pemilik pemilik = pemilikService.findById(pemilikId);
-        coffeShop.setNama(nama);
-        coffeShop.setJumProduk(jumProduk);
-        LocalDate tanggalTerbentuk = LocalDate.parse(tglTerbentuk);
-        coffeShop.setTglTerbentuk(tanggalTerbentuk);
-        coffeShop.setAlamat(alamat);
-        coffeShop.setPemilik(pemilik);
-        coffeShop.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        coffeShop.setCreatedBy(InetAddress.getLocalHost().getHostName());
-        coffeShop.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-        coffeShop.setUpdatedBy(InetAddress.getLocalHost().getHostName());
+//        CoffeShop coffeShop = new CoffeShop();
+//        Alamat alamat = alamatService.findById(formCoffeShop.getAlamatId());
+////        Pemilik pemilik = pemilikService.findById(formCoffeShop.getPemilikIdspr());
+//        coffeShop.setNama(formCoffeShop.getNama());
+//        coffeShop.setJumProduk(formCoffeShop.getJumProduk());
+//        LocalDate tanggalTerbentuk = LocalDate.parse(formCoffeShop.getTglTerbentuk());
+//        coffeShop.setTglTerbentuk(tanggalTerbentuk);
+//        coffeShop.setAlamat(alamat);
+////        coffeShop.setPemilik(pemilik);
+//        coffeShop.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+//        coffeShop.setCreatedBy(InetAddress.getLocalHost().getHostName());
+//        coffeShop.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+//        coffeShop.setUpdatedBy(InetAddress.getLocalHost().getHostName());
 
         Response response = new Response();
         response.setService(this.getClass().getName() +"."+ nameofCurrMethod);
         response.setMessage("Berhasil Membuat Data");
-        response.setData(coffeShopService.create(coffeShop));
+        response.setData(formCoffeShop.getPemilikId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
+    }
+
+    @GetMapping("/paging")
+    ResponseEntity<Response> readAllPaging(@RequestParam(name = "page") Integer page,
+                                           @RequestParam(name = "size") Integer size){
+        String nameofCurrMethod = new Throwable()
+                .getStackTrace()[0]
+                .getMethodName();
+
+        Response response = new Response();
+        response.setService(this.getClass().getName() +"."+ nameofCurrMethod);
+        response.setMessage("Berhasil Menampilkan Seluruh Data");
+        response.setData(coffeShopService.findAllPaging(page,size));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -91,7 +106,7 @@ public class CoffeShopController {
         Response response = new Response();
         response.setService(this.getClass().getName() +"."+ nameofCurrMethod);
         response.setMessage("Berhasil Menampilkan Data Berdasarkan Id");
-        response.setData(coffeShopService.findById(id));
+        response.setData(coffeShopService.findByIdDetail(id));
 
         return ResponseEntity
                 .status(HttpStatus.OK)

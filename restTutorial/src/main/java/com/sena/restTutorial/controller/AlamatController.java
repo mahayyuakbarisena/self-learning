@@ -2,7 +2,9 @@ package com.sena.restTutorial.controller;
 
 
 import com.sena.restTutorial.Response;
+import com.sena.restTutorial.exception.AlamatException;
 import com.sena.restTutorial.model.Alamat;
+import com.sena.restTutorial.responses.UnitAlamatResponse;
 import com.sena.restTutorial.service.AlamatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
@@ -154,21 +157,18 @@ public class AlamatController {
     }
 
     @DeleteMapping
-    ResponseEntity<Response> deleteById(@RequestParam(value = "id") Long id){
-        String nameofCurrMethod = new Throwable()
-                .getStackTrace()[0]
-                .getMethodName();
+    public ResponseEntity<UnitAlamatResponse> deleteById(@RequestParam(value = "id") Long id){
+        try {
+            ResponseEntity<UnitAlamatResponse> responseEntity = new ResponseEntity<>(
+                    UnitAlamatResponse.delete(alamatService.findById(id)),
+                    HttpStatus.OK
+            );
+            alamatService.delete(id);
+            return responseEntity;
+        }catch (Exception ex){
+            AlamatException alamatException = new AlamatException();
+            return alamatException.handleException(ex);
+        }
 
-        Response response = new Response();
-        response.setService(this.getClass().getName() + nameofCurrMethod);
-        response.setMessage("Data Berhasil Dihapus");
-        response.setData(alamatService.findById(id));
-
-        alamatService.delete(id);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(response);
     }
 }

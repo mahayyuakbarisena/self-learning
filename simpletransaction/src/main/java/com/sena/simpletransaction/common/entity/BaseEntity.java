@@ -1,4 +1,4 @@
-package com.sena.restTutorial.model;
+package com.sena.simpletransaction.common.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,37 +8,14 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import java.util.Date;
-import java.util.List;
 
-@Setter
 @Getter
-@Entity
-@Table(name = "pemilik")
+@Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Pemilik {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name = "nama_depan", nullable = false)
-    private String namaDepan;
-
-    @Column(name = "nama_belakang", nullable = false)
-    private String namaBelakang;
-
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @Column(name = "npwp", nullable = false)
-    private String npwp;
-
-    @OneToMany(mappedBy = "pemilik")
-    private List<CoffeShop> daftarCoffeShop = new ArrayList<>();
-
+public class BaseEntity {
     @Column(name = "created_at", nullable = false)
     @CreatedDate
     private Date createdAt;
